@@ -6,7 +6,7 @@ const { nodeEnv } = require('../env')
 // Process application Javascript code with Babel.
 // Uses application .babelrc to apply any transformations
 module.exports = {
-  test: /\.(js|jsx|mjs|ts|tsx)?(\.erb)?$/,
+  test: /\.(ts|tsx)?(\.erb)?$/,
   include: [sourcePath, ...additionalPaths].map((p) => {
     try {
       return realpathSync(p)
@@ -17,11 +17,11 @@ module.exports = {
   exclude: /node_modules/,
   use: [
     {
-      loader: 'babel-loader',
+      loader: 'esbuild-loader',
       options: {
-        cacheDirectory: true,
-        cacheCompression: nodeEnv === 'production',
-        compact: nodeEnv === 'production'
+        loader: 'tsx',
+        minify: nodeEnv === 'production',
+        target: 'es2015'
       }
     }
   ]
